@@ -56,28 +56,28 @@ int main() {
     int i = 0;
     for ( i; input[i]!='\0'; i++) {
         if (input[i] != output[i]) { //если буквы на одной позиции разные
-            if (stk.GetStackSize()!=0 && (output[i] == stk.GetBottomValue())) {
+            if (stk.GetStackSize()!=0 && (output[i] == stk.GetBottomValue())) { //Проверяем на переернутую подстроку, например 1234 и 1324 найдем 23
                 stk.Push(input[i]);
-                for (int j = stk.GetStackSize(); j > 0; j--) {
+                for (int j = stk.GetStackSize(); j > 0; j--) { //Если нашли, то проверяем все элементы и чистим стек
                     if (stk.Pop() != output[i-j+1]) {
                         cout <<"NO";
                         return 0;
                     }
                 }
             } else {
-                stk.Push(input[i]);
+                stk.Push(input[i]); // Иначе подстрока не полная, продолжаем заполнять стек
             }
         }
-        else if ((input[i] == output[i]) && stk.GetStackSize()) { //находим подстроку полученную переворотом aBCd и aCBd
+        else if ((input[i] == output[i]) && stk.GetStackSize()) { //Если встетили совпадающий элемент, то смотрим это совпадающие куски обеих строк или просто символ в середине подстоки
             if (stk.GetBottomValue() != output[i-1]) {
-                stk.Push(input[i]);
+                stk.Push(input[i]);//Если символ, просто сохраняем в стек
             }
         }
     }
-    if (!stk.GetStackSize()) {
+    if (!stk.GetStackSize()) {//Если все подстроки уже неайдены
         cout<<"YES";
         return 0;
-    } else {
+    } else {//Иначе, подстрока может идти до конца слова, проверим это
         for (int j = stk.GetStackSize(); j > 0; j--){
             if (stk.Pop() != output[i-j]) {
                 cout<<"NO";
