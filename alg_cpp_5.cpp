@@ -56,10 +56,10 @@ int main() {
     int i = 0;
     for ( i; input[i]!='\0'; i++) {
         if (input[i] != output[i]) { //если буквы на одной позиции разные
-            if (stk.GetStackSize()!=0 && (output[i] == stk.GetBottomValue())) { //Проверяем на переернутую подстроку, например 1234 и 1324 найдем 23
-                stk.Push(input[i]);
-                for (int j = stk.GetStackSize(); j > 0; j--) { //Если нашли, то проверяем все элементы и чистим стек
-                    if (stk.Pop() != output[i-j+1]) {
+            if (stk.GetStackSize()!=0 && (output[i] == stk.GetBottomValue())) { //Проверяем на 
+                stk.Push(input[i]);     // перевернутую подстроку, например 1234 и 1324 найдем 23
+                for (int j = stk.GetStackSize(); j > 0; j--) { //Если нашли, то проверяем все
+                    if (stk.Pop() != output[i-j+1]) {          //элементы и чистим стек
                         cout <<"NO";
                         return 0;
                     }
@@ -68,13 +68,14 @@ int main() {
                 stk.Push(input[i]); // Иначе подстрока не полная, продолжаем заполнять стек
             }
         }
-        else if ((input[i] == output[i]) && stk.GetStackSize()) { //Если встетили совпадающий элемент, то смотрим это совпадающие куски обеих строк или просто символ в середине подстоки
-            if (stk.GetBottomValue() != output[i-1]) {
+        else if ((input[i] == output[i]) && stk.GetStackSize()) { //Если встретили совпадающий элемент, 
+            if (stk.GetBottomValue() != output[i-1]) {//то смотрим это совпадающие куски обеих строк 
+                                                      //или просто символ в середине подстроки
                 stk.Push(input[i]);//Если символ, просто сохраняем в стек
             }
         }
     }
-    if (!stk.GetStackSize()) {//Если все подстроки уже неайдены
+    if (!stk.GetStackSize()) {//Если все подстроки уже найдены
         cout<<"YES";
         return 0;
     } else {//Иначе, подстрока может идти до конца слова, проверим это
