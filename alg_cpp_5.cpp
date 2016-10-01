@@ -25,8 +25,8 @@ class Stack {
                 bottom_value_ = value;
             top_++;
         }
-        char GetBottomValue() {
-            return bottom_value_;
+        char GetTopValue() {
+            return buf_[top_-1];
         }
         int GetStackSize() {
             return top_;
@@ -50,28 +50,18 @@ class Stack {
 };
 
 int main() {
-    string input, output;
+    string input, output, temp;
     cin>>input>>output;
     Stack stk(10);
-    int i = 0;
-    for ( i; input[i]!='\0'; i++) {
-        if (input[i] != output[i]) { //если буквы на одной позиции разные
-            if (stk.GetStackSize()!=0 && (output[i] == stk.GetBottomValue())) { //Проверяем на 
-                stk.Push(input[i]);     // перевернутую подстроку, например 1234 и 1324 найдем 23
-                for (int j = stk.GetStackSize(); j > 0; j--) { //Если нашли, то проверяем все
-                    if (stk.Pop() != output[i-j+1]) {          //элементы и чистим стек
-                        cout <<"NO";
-                        return 0;
-                    }
-                }
-            } else {
-                stk.Push(input[i]); // Иначе подстрока не полная, продолжаем заполнять стек
-            }
-        }
-        else if ((input[i] == output[i]) && stk.GetStackSize()) { //Если встретили совпадающий элемент, 
-            if (stk.GetBottomValue() != output[i-1]) {//то смотрим это совпадающие куски обеих строк 
-                                                      //или просто символ в середине подстроки
-                stk.Push(input[i]);//Если символ, просто сохраняем в стек
+    int i = 0, output_pos = 0;
+    for (i; input[i] != '\0'; i++) {
+        stk.Push(input[i]);           // Идем по элементам первого слова, занося буквы в массив
+        if (input[i] == output[output_pos]) { //Если встертились 
+                                           //совпадающие буквы, проверим на соответсвие содержимого
+                                           //стека со следующей подстрокой
+            while (stk.GetStackSize() && (stk.GetTopValue() == output[output_pos])) {
+                output_pos++;
+                stk.Pop();
             }
         }
     }
@@ -87,7 +77,7 @@ int main() {
         }
     }
     cout<<"YES";
-    
+
     
     return 0;
 }
