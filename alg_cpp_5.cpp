@@ -52,7 +52,7 @@ class Stack {
 int main() {
     string input, output;
     cin>>input>>output;
-    Stack stk(8);
+    Stack stk(10);
     int i = 0;
     for ( i; input[i]!='\0'; i++) {
         if (input[i] != output[i]) { //если буквы на одной позиции разные
